@@ -1,0 +1,91 @@
+neo4j:
+  name: "neo4j"
+  password: "12345678"
+
+  resources:
+    requests:
+      cpu: "2"
+      memory: "5Gi"
+    limits:
+      cpu: "4"
+      memory: "10Gi"
+
+  edition: community
+    # Neo4j Edition to use (community|enterprise) the default is
+    # community so only change this if you have a license
+    # set edition: “enterprise” to use Neo4j Enterprise Edition
+    # To use Neo4j Enterprise Edition you must have a Neo4j license
+    # agreement.
+    #
+    # More information is also available at: neo4j.com/licensing
+    # Email inquiries can be directed to: licensing@neo4j.com
+    #
+    # Set acceptLicenseAgreement: “yes” to confirm that you have a
+    # Neo4j license agreement
+
+  acceptLicenseAgreement: "yes"
+
+volumes:
+  data:
+    mode: "volume"
+    volume:
+      persistentVolumeClaim:
+        claimName: neo4j-pvc
+
+env:
+  NEO4J_PLUGINS: '["graph-data-science", "apoc"]'
+  HTTP_PROXY: 'http://172.17.0.1:3128'
+  HTTPS_PROXY: 'http://172.17.0.1:3128'
+  http_proxy: 'http://172.17.0.1:3128'
+  https_proxy: 'http://172.17.0.1:3128'
+  NO_PROXY: 'localhost, *.localhost, *.corporate.net, 127.0.0.1, 172.16.0.0/12, .internal'
+  no_proxy: 'localhost, *.localhost, *.corporate.net, 127.0.0.1, 172.16.0.0/12, .internal'
+
+config:
+  dbms.security.procedures.unrestricted: "gds.*,apoc.*,bloom.*"
+  dbms.security.procedures.whitelist: "gds.*,apoc.*,bloom.*"
+  apoc.import.file.enabled: "true"
+  apoc.export.file.enabled: "true"
+
+
+# Services for Neo4j
+services:
+  neo4j:
+    enabled: true
+
+    spec:
+      type: ClusterIP
+
+      # in most cloud environments LoadBalancer type will receive an ephemeral public IP address automatically. If you need to specify a static ip here use:
+      # loadBalancerIP: ...
+
+    # ports to include in neo4j service
+    ports:
+      http:
+        enabled: true # Set this to false to remove HTTP from this service (this does not affect whether http is enabled for the neo4j process)
+        # uncomment to publish http on port 80 (neo4j default is 7474)
+        # port: 80
+        # targetPort: 7474
+        # name: http
+        # nodePort: 30050
+      https:
+        enabled: true # Set this to false to remove HTTPS from this service (this does not affect whether https is enabled for the neo4j process)
+        # uncomment to publish http on port 443 (neo4j default is 7473)
+        # port: 443
+        # targetPort: 7473
+        # name: https
+        # nodePort: 30060
+      bolt:
+        enabled: true # Set this to false to remove BOLT from this service (this does not affect whether https is enabled for the neo4j process)
+        # Uncomment to explicitly specify the port to publish Neo4j Bolt (7687 is the default)
+        # port: 7687
+        # targetPort: 7687
+        # name: tcp-bolt
+        # nodePort: 30070
+      backup:
+        enabled: true # Set this to true to expose backup port externally (n.b. this could have security implications. Backup is not authenticated by default)
+        # Uncomment to explicitly specify the port to publish Neo4j Backup (6362 is the default)
+        # port: 6362
+        # targetPort: 6362
+        # name: tcp-backup
+        # nodePort: 30071

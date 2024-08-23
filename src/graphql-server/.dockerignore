@@ -1,0 +1,27 @@
+# Ignore node modules (rely on Docker to install dependencies)
+node_modules
+npm-debug.log
+
+# Ignore the compiled output
+dist
+
+# Ignore environment files
+.env
+
+# Ignore local development files
+*.log
+*.tsbuildinfo
+
+# Ignore temporary files
+tmp
+temp
+*.tmp
+*.swp
+
+# Ignore IDE/editor config files
+.vscode
+.idea
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db

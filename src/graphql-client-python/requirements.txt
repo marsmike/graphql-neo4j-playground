@@ -1,0 +1,6 @@
+click
+gql
+requests
+aiohttp
+websockets
+PyJWT

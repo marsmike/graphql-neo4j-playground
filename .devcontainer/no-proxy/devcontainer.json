@@ -1,0 +1,116 @@
+{
+	"name": "graphql-neo4j-playground",
+	"dockerFile": "Dockerfile",
+
+
+	// do not change these if you want Docker in Docker support
+	"runArgs": [ "--init", "--privileged" ],
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+		"source=${localEnv:HOME}/.docker/config.json,target=/home/vscode/.docker/config.json,type=bind",
+		"source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind",
+		"source=${localEnv:HOME}/.git-credentials,target=/home/vscode/.git-credentials,type=bind" ],
+	"overrideCommand": false,
+
+	// some base images require a specific user name
+	"remoteUser": "vscode",
+
+	"customizations": {
+        "vscode": {
+            "extensions": [
+				"ahmadawais.shades-of-purple",
+				"aykutsarac.jsoncrack-vscode",
+				"charliermarsh.ruff",
+				"davidanson.vscode-markdownlint",
+				"donjayamanne.githistory",
+				"dzhavat.bracket-pair-toggler",
+				"github.copilot",
+				"github.vscode-pull-request-github",
+				"github.vscode-github-actions",
+				"grapecity.gc-excelviewer",
+				"iliazeus.vscode-ansi",
+				"kevinrose.vsc-python-indent",
+				"mechatroner.rainbow-csv",
+				"mhutchie.git-graph",
+				"ms-azuretools.vscode-docker",
+				"ms-kubernetes-tools.vscode-aks-tools",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"ms-python.debugpy",
+				"ms-python.python",
+				"oderwat.indent-rainbow",
+				"pkief.material-icon-theme",
+				"pomdtr.excalidraw-editor",
+				"redhat.vscode-yaml",
+				"rioj7.vscode-json-validate",
+				"wayou.vscode-todo-highlight",
+				"zhuangtongfa.material-theme",
+				"tomoki1207.pdf",
+				"janisdd.vscode-edit-csv",
+				"GrapeCity.gc-excelviewer",
+				"AykutSarac.jsoncrack-vscode",
+				"adamcowley.neo4j-vscode",
+				"mquandalle.graphql"
+			]
+        },
+		"settings": {
+			"terminal.integrated.defaultProfile.linux": "zsh",
+			"files.trimTrailingWhitespace": true,
+			"files.trimFinalNewlines": true,
+			"files.insertFinalNewline": true,
+			"editor.defaultFormatter": "charliermarsh.ruff",
+  			"editor.formatOnSave": true,
+  			"editor.formatOnPaste": true,
+			"dev.containers.dockerCredentialHelper": false
+		}
+    },
+
+	"forwardPorts":  [
+		6362,
+		7473,
+		7474,
+		7687,
+		8081,
+		8082,
+		30000,
+		31010,
+		32000
+	],
+
+	"waitFor": "postStartCommand",
+
+	// Use 'onCreateCommand' to run commands as part of container creation.
+	"onCreateCommand": "/bin/bash -c .devcontainer/on-create.sh",
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "/bin/bash -c .devcontainer/post-create.sh",
+
+	// Use 'postStartCommand' to run commands after the container starts.
+	"postStartCommand": "/bin/bash -c .devcontainer/post-start.sh",
+	
+	"portsAttributes": {
+		"6362": {
+			"label": "6362 [neo4j-backup]"
+		},
+		"7473": {
+			"label": "7473 [neo4j-https]"
+		},
+		"7474": {
+			"label": "7474 [neo4j-http]"
+		},
+		"7687": {
+			"label": "7687 [neo4j-data]"
+		},
+		"8081": {
+			"label": "8081 [graphql]"
+		},
+		"8082": {
+			"label": "8082 [graphql-ws]"
+		},
+		"30000": {
+			"label": "30000 [prometheus]"
+		},
+		"32000": {
+			"label": "32000 [grafana]"
+		}
+	}
+}

@@ -1,0 +1,66 @@
+#!/bin/bash
+
+#name: graphql-server
+#short: Build and deploy the GraphQL server to the local cluster
+
+cd "$REPO_BASE" || exit
+
+# Source the .env file
+source .env
+env | grep HTTP
+env | grep NEO4J
+
+kubectl config use-context k3d-k3s-default
+kubectl config set-context --current --namespace=playground
+
+# rebuild docker image
+cd ./src/graphql-server/ || exit
+
+echo "(Re-)building docker image for graphql-server..."
+
+docker buildx build -t k3d-registry.localhost:5500/graphql-server:local .
+docker push k3d-registry.localhost:5500/graphql-server:local
+
+cd "$REPO_BASE" || exit
+
+# redeploy
+cd ./deploy/apps/graphql-server || exit
+
+echo "Killing old kubectl port-forward process..."
+pkill -f 'kubectl port-forward --address 0.0.0.0 svc/graphql-service 8081:8081 8082:8082'
+
+echo "Deleting old deployment..."
+kubectl delete deployment graphql --grace-period=0 --force
+kubectl delete service graphql-service --grace-period=0 --force
+
+# Delete the secret if it already exists
+echo "Deleting secrets for Neo4J GraphQL Server..."
+kubectl delete secret "graphql-secrets" -n playground || true
+
+sleep 3
+
+echo "Creating secrets for Neo4J GraphQL Server..."
+kubectl create secret generic "graphql-secrets" \
+  --from-literal=HTTP_PROXY="$HTTP_PROXY" \
+  --from-literal=HTTPS_PROXY="$HTTPS_PROXY" \
+  --from-literal=NEO4J_CONNECTION_URL="$NEO4J_CONNECTION_URL" \
+  --from-literal=NEO4J_USER="$NEO4J_USER" \
+  --from-literal=NEO4J_PASSWORD="$NEO4J_PASSWORD" \
+  -n playground
+
+echo "Deploying new version..."
+kubectl apply -f graphql-server.yaml
+
+# Get the full name of the new pod
+new_pod_name=$(kubectl get pods -l app=graphql -o jsonpath="{.items[0].metadata.name}")
+
+kubectl wait pod $new_pod_name --for condition=ready --timeout=60s
+sleep 5
+
+echo "forwarding ports..."
+nohup kubectl port-forward --address 0.0.0.0 svc/graphql-service 8081:8081 8082:8082 > /dev/null 2>&1 &
+
+# show status and curl results
+kubectl get pods -n playground
+
+http localhost:8082
