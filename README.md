@@ -9,10 +9,11 @@ Inspired by this fascinating project: [kubernetes-in-codespaces](https://github.
 
 ## Features
 
-- Deploy a local Kubernetes cluster using k3d.
-- Provision Neo4J Community Edition within the cluster.
-- Create a GraphQL API connected to the Neo4J graph database.
-- Built-in observability stack with Prometheus and Grafana.
+- Can be run on private or corporate environments (Proxy Support).
+- Deploys a local Kubernetes cluster using k3d inside a single container.
+- Provisions Neo4J Community Edition within the cluster.
+- Creates a GraphQL API connected to the Neo4J graph database.
+- Has Built-in observability stack with Prometheus and Grafana.
 
 ---
 
