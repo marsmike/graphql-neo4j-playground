@@ -64,16 +64,32 @@
 		}
     },
 
-	"forwardPorts":  [
-		6362,
-		7473,
-		7474,
-		7687,
-		8081,
-		8082,
-		30000,
-		31010,
-		32000
+	// Uncomment if you want to publish ports over SSH (Port 22) 
+	// to the local development host.
+	// Run ./01-port-forwarding.sh first.
+	// Example: http://localhost:7474 -> Neo4J Service listening 7474
+	//
+	// "forwardPorts":  [
+	//	7474,
+	//	7687,
+	//	8081,
+	//	8082,
+	//	30000,
+	//	32000
+	//],
+
+	// Uncomment if you want to publish ports direct externally
+	// on the host running the containerized cluster.
+	// Also run ./01-port-forwarding.sh first.
+	// http://10.155.96.253:7474/ -> Neo4J Service listening 7474
+	//
+	"appPort":  [
+		"7474:7474",
+		"7687:7687",
+		"8081:8081",
+		"8082:8082",
+		"30000:30000",
+		"32000:32000"
 	],
 
 	"waitFor": "postStartCommand",
