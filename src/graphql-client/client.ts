@@ -5,10 +5,12 @@ import { WebSocket } from 'ws';
 const AUTH_TOKEN = 'defaultAuthToken';
 
 const httpQuery = `
-query {
+query Movies {
   movies {
     title
-    actors {
+    tagline
+    released
+    producers {
       name
     }
   }
