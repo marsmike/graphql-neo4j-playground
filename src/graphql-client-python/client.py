@@ -12,6 +12,11 @@ http_query = """
 query Movies {
   movies {
     title
+    tagline
+    released
+    producers {
+      name
+    }
   }
 }
 """
