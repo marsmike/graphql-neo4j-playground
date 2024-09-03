@@ -1,11 +1,27 @@
-#graphql
-    type Movie {
-        title: String
-        actors: [Actor!]! @relationship(type: "ACTED_IN", direction: IN)
-    }
+type Movie {
+    title: String!
+    released: Int
+    tagline: String
+    actors: [Role!]! @relationship(type: "ACTED_IN", direction: IN)
+    directors: [Person!]! @relationship(type: "DIRECTED", direction: IN)
+    producers: [Person!]! @relationship(type: "PRODUCED", direction: IN)
+    writers: [Person!]! @relationship(type: "WROTE", direction: IN)
+}
 
-    type Actor {
-        name: String
-        movies: [Movie!]! @relationship(type: "ACTED_IN", direction: OUT)
-    }
+type Person {  
+    name: String!
+    born: Int
+    actedIn: [Role!]! @relationship(type: "ACTED_IN", direction: OUT)
+    directed: [Movie!]! @relationship(type: "DIRECTED", direction: OUT)
+    produced: [Movie!]! @relationship(type: "PRODUCED", direction: OUT)
+    wrote: [Movie!]! @relationship(type: "WROTE", direction: OUT)
+    follows: [Person!]! @relationship(type: "FOLLOWS", direction: OUT)
+}
 
+# Role Type to capture ACTED_IN relationship with roles
+
+type Role {
+    roles: [String!]!
+    movie: Movie! @relationship(type: "ACTED_IN", direction: IN)
+    actor: Person! @relationship(type: "ACTED_IN", direction: OUT)
+}
