@@ -45,14 +45,5 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh -
 
 ENV PATH /opt/conda/bin:$PATH
 
-# Install the azure cli and kubelogin
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo https_proxy=$https_proxy bash
-
-RUN wget https://github.com/Azure/kubelogin/releases/download/v0.1.3/kubelogin-linux-amd64.zip -O /tmp/kubelogin.zip \
-    && unzip /tmp/kubelogin.zip \
-    && chmod +x bin/linux_amd64/kubelogin \
-    && mv bin/linux_amd64/kubelogin /usr/local/bin \
-    && rm /tmp/kubelogin.zip
-
 # Log the docker build complete event
 RUN echo "$(date +'%Y-%m-%d %H:%M:%S')    docker build complete" >> /home/${USERNAME}/status
