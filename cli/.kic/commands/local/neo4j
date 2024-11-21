@@ -19,10 +19,15 @@ helm repo update
 helm uninstall neo4j || true
 sleep 5
 
+
+
 cd "$REPO_BASE" || exit
 
 # redeploy
 cd deploy/apps/neo4j || exit
+
+# Delete a persistent volume claim for Neo4J
+kubectl delete -f ./pvc.yaml
 
 # Create a persistent volume claim for Neo4J
 kubectl apply -f ./pvc.yaml
