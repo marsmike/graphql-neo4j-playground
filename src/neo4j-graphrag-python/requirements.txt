@@ -1,0 +1,10 @@
+click
+gql
+requests
+aiohttp
+websockets
+neo4j-graphrag
+fsspec
+pypdf
+openai
+python-dotenv
