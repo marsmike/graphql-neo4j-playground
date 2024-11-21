@@ -34,12 +34,12 @@ volumes:
 
 env:
   NEO4J_PLUGINS: '["graph-data-science", "apoc"]'
-  HTTP_PROXY: 'http://172.17.0.1:3128'
-  HTTPS_PROXY: 'http://172.17.0.1:3128'
-  http_proxy: 'http://172.17.0.1:3128'
-  https_proxy: 'http://172.17.0.1:3128'
-  NO_PROXY: 'localhost, *.localhost, *.corporate.net, 127.0.0.1, 172.16.0.0/12, .internal'
-  no_proxy: 'localhost, *.localhost, *.corporate.net, 127.0.0.1, 172.16.0.0/12, .internal'
+  #HTTP_PROXY: 'http://172.17.0.1:3128'
+  #HTTPS_PROXY: 'http://172.17.0.1:3128'
+  #http_proxy: 'http://172.17.0.1:3128'
+  #https_proxy: 'http://172.17.0.1:3128'
+  #NO_PROXY: 'localhost, *.localhost, *.corporate.net, 127.0.0.1, 172.16.0.0/12, .internal'
+  #no_proxy: 'localhost, *.localhost, *.corporate.net, 127.0.0.1, 172.16.0.0/12, .internal'
 
 config:
   dbms.security.procedures.unrestricted: "gds.*,apoc.*,bloom.*"

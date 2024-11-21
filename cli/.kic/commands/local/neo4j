@@ -29,5 +29,5 @@ kubectl apply -f ./pvc.yaml
 
 echo "Deploying Neo4J helm chart with the following values:"
 
-helm install neo4j -n playground neo4j/neo4j-standalone \
+helm install neo4j -n playground neo4j/neo4j  \
     -f ./values.yaml
