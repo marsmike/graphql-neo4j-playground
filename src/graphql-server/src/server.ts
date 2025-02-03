@@ -15,7 +15,7 @@ dotenv.config();
 const PORT = 8082; // Apollo server port
 
 // Load Neo4j connection parameters from environment variables
-const neo4jUrl = process.env.NEO4J_CONNECTION_URL || 'neo4j+s://6c3f70c9.databases.neo4j.io';
+const neo4jUrl = process.env.NEO4J_CONNECTION_URL;
 const neo4jUser = process.env.NEO4J_USER || 'neo4j';
 const neo4jPassword = process.env.NEO4J_PASSWORD;
 
