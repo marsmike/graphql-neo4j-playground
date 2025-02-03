@@ -1,0 +1,17 @@
+[
+    {
+        "key": "JIRA-001",
+        "summary": "Fix login API bug causing 500 error",
+        "description": "The login API returns a 500 error when invalid credentials are provided."
+    },
+    {
+        "key": "JIRA-002",
+        "summary": "Enhance dashboard performance for large datasets",
+        "description": "Optimize user dashboard for datasets exceeding 1 million rows."
+    },
+    {
+        "key": "JIRA-003",
+        "summary": "Create unit tests for payment module",
+        "description": "Add comprehensive unit tests for all payment module edge cases."
+    }
+]

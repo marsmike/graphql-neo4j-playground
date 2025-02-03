@@ -38,12 +38,20 @@ RUN curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | gpg --dearmor -o
     rm -rf /var/lib/apt/lists/* && \
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
-# Download and install Anaconda
-RUN wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh -O /tmp/anaconda.sh \
-    && /bin/bash /tmp/anaconda.sh -b -p /opt/conda \
-    && rm /tmp/anaconda.sh
+# Install uv (Python package manager)
+RUN pip install --no-cache-dir uv
 
-ENV PATH /opt/conda/bin:$PATH
+RUN DOCKER_COMPOSE_VERSION=v2.32.3 \
+&& curl -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+&& chmod +x /usr/local/bin/docker-compose
+
+RUN curl -fsSL "https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64" -o /usr/local/bin/ctop \
+&& chmod +x /usr/local/bin/ctop
+
+RUN curl -fsSL https://github.com/jesseduffield/lazydocker/releases/download/v0.24.1/lazydocker_0.24.1_Linux_x86_64.tar.gz -o lazydocker.tar.gz && \
+    tar -xzf lazydocker.tar.gz -C /usr/local/bin lazydocker && \
+    chmod +x /usr/local/bin/lazydocker && \
+    rm lazydocker.tar.gz
 
 # Log the docker build complete event
 RUN echo "$(date +'%Y-%m-%d %H:%M:%S')    docker build complete" >> /home/${USERNAME}/status

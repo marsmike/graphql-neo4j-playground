@@ -27,7 +27,7 @@ cd "$REPO_BASE" || exit
 cd ./deploy/apps/graphql-server || exit
 
 echo "Killing old kubectl port-forward process..."
-pkill -f 'kubectl port-forward --address 0.0.0.0 svc/graphql-service 8081:8081 8082:8082'
+pkill -f 'kubectl port-forward --address 0.0.0.0 svc/graphql-service 8082:8082'
 
 echo "Deleting old deployment..."
 kubectl delete deployment graphql --grace-period=0 --force
@@ -58,7 +58,7 @@ kubectl wait pod $new_pod_name --for condition=ready --timeout=60s
 sleep 5
 
 echo "forwarding ports..."
-nohup kubectl port-forward --address 0.0.0.0 svc/graphql-service 8081:8081 8082:8082 > /dev/null 2>&1 &
+nohup kubectl port-forward --address 0.0.0.0 svc/graphql-service 8082:8082 > /dev/null 2>&1 &
 
 # show status and curl results
 kubectl get pods -n playground

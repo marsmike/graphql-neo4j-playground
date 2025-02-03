@@ -1,0 +1,17 @@
+[
+    {
+        "id": "REQ-001",
+        "title": "Implement user authentication via API",
+        "description": "The system shall authenticate users with proper error handling."
+    },
+    {
+        "id": "REQ-002",
+        "title": "Support high-performance data visualization",
+        "description": "The application shall visualize large datasets without performance degradation."
+    },
+    {
+        "id": "REQ-003",
+        "title": "Ensure comprehensive test coverage",
+        "description": "The payment module must have 100% unit test coverage."
+    }
+]
