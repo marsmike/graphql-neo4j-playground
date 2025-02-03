@@ -1,27 +1,51 @@
-type Movie {
-    title: String!
-    released: Int
-    tagline: String
-    actors: [Role!]! @relationship(type: "ACTED_IN", direction: IN)
-    directors: [Person!]! @relationship(type: "DIRECTED", direction: IN)
-    producers: [Person!]! @relationship(type: "PRODUCED", direction: IN)
-    writers: [Person!]! @relationship(type: "WROTE", direction: IN)
+
+scalar Date
+
+scalar DateTime
+
+type Project {
+  id: ID!
+  name: String!
+  description: String
+  type: ProjectType!
+  category: String!
+  status: ProjectStatus!
+  startDate: Date
+  endDate: Date
+  milestones: [Milestone!]! @relationship(type: "HAS_MILESTONE", direction: OUT)
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
-type Person {  
-    name: String!
-    born: Int
-    actedIn: [Role!]! @relationship(type: "ACTED_IN", direction: OUT)
-    directed: [Movie!]! @relationship(type: "DIRECTED", direction: OUT)
-    produced: [Movie!]! @relationship(type: "PRODUCED", direction: OUT)
-    wrote: [Movie!]! @relationship(type: "WROTE", direction: OUT)
-    follows: [Person!]! @relationship(type: "FOLLOWS", direction: OUT)
+enum ProjectType {
+  SOFTWARE
+  HARDWARE
+  RESEARCH
+  OTHER
 }
 
-# Role Type to capture ACTED_IN relationship with roles
+enum ProjectStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
 
-type Role {
-    roles: [String!]!
-    movie: Movie! @relationship(type: "ACTED_IN", direction: IN)
-    actor: Person! @relationship(type: "ACTED_IN", direction: OUT)
+type Milestone {
+  id: ID!
+  name: String!
+  description: String
+  dueDate: Date
+  status: MilestoneStatus!
+  project: Project! @relationship(type: "HAS_MILESTONE", direction: IN)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
 }

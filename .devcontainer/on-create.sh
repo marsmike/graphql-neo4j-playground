@@ -60,19 +60,5 @@ echo "generating zsh completions..."
 kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
 kubectl completion zsh > "$HOME/.oh-my-zsh/completions/_kubectl"
 
-# init anaconda for zsh
-conda init zsh
-conda config --set changeps1 False
-
-# create anaconda environment for master-flow
-conda create -y -n playground python=3.11
-
-# activate anaconda environment on login
-{
-    echo ""
-    echo "conda activate playground"
-} >> "$HOME/.zshrc"
-
-
 echo "on-create complete"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create complete" >> "$HOME/status"
